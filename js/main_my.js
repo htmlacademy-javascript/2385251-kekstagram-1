@@ -41,11 +41,13 @@ comments, массив объектов — список комментарие�
 ]
 */
 
-const PHOTOS_COUNT = 25;
-const MAX_LIKES = 15;
-const MIN_LIKES = 200;
+const COUNT_PHOTOS = 25;
+const MIN_LIKES = 15;
+const MAX_LIKES = 200;
+const COUNT_AVATAR = 6;
+const COUNT_COMMENTS = 5;
 
-const DESCRIPTIONS = [
+const DESCRIPTION = [
   'Красивый пейзаж',
   'Было здорово! Надо чаще собираться.',
   'Самый лучший день в моей жизни',
@@ -53,7 +55,7 @@ const DESCRIPTIONS = [
   'Я и мои друзья. Люблю их за это.'
 ];
 
-const name = [
+const NAMES = [
   'Елена',
   'Вика',
   'Генадий',
@@ -66,6 +68,11 @@ const name = [
   'Константин',
 ];
 
+const MESSAGE = [
+  'Всё отлично!',
+  'В целом всё неплохо. Но не всё.'
+];
+
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -73,34 +80,53 @@ const getRandomInteger = (a, b) => {
   return Math.floor(result);
 };
 
-const getUniqueRange = (min, max) => {
-  const previewsValues = [];
-
-  return () => {
-    let randomNumber = getRandomInteger(min, max);
-    if (previewsValues.length >= (max - min + 1)) {
-      console.error(`Перебраны все числа диапазона от ${min} до ${max}`);
-      return null;
-    }
-    while (previewsValues.includes(randomNumber)) {
-      randomNumber = getRandomInteger(min, max);
-    }
-    previewsValues.push(randomNumber);
-    return randomNumber;
-  }
-}
-
-const getUniqueId = getUniqueRange(0, PHOTOS_COUNT - 1);
-const getUniquePhoto = getUniqueRange(1, PHOTOS_COUNT);
 
 const createPhoto = () => ({
-  id: getUniqueId(),
-  url: `photos/${getUniquePhoto()}.jpg`,
-  description: DESCRIPTIONS[getRandomInteger(0, DESCRIPTIONS.length - 1)],
-  likes: 10,
-  comments: []
-})
+  id: getUniqueId,
+  url: `photos/${getUniqueUrl()}.jpg`,
+  description: DESCRIPTION[getRandomInteger(0, DESCRIPTION.length - 1)],
+  likes: getRandomInteger(MIN_LIKES, MAX_LIKES),
+  comments: createComments(COUNT_COMMENTS)
+});
 
-const createPhotos = (n) => Array.from({ length: n }, createPhoto);
+const createPhotos = (n) => {
+  const photos = Array.from({ length: n }, createPhoto);
+  return photos;
+};
 
-// console.log(createPhotos(PHOTOS_COUNT));
+const createComment = () => ({
+  id: getUniqueIdComment,
+  avatar: `img/avatar-${getUniqueAvatar()}.svg`,
+  message: MESSAGE[getRandomInteger(0, MESSAGE.length - 1)],
+  name: NAMES[getRandomInteger(0, NAMES.length - 1)]
+});
+
+const createComments = () => {
+  const comments = Array.from({ length: 2 }, createComment);
+  return comments;
+};
+
+const getUniqueRange = (min, max) => {
+  const previousValues = [];
+
+  return function () {
+    let currentValue = getRandomInteger(min, max);
+    if (previousValues.length >= (max - min + 1)) {
+      console.error('Перебраны все числа из диапазона от ' + min + ' до ' + max);
+      return null;
+    }
+    while (previousValues.includes(currentValue)) {
+      currentValue = getRandomInteger(min, max);
+    }
+    previousValues.push(currentValue);
+    return currentValue;
+  };
+};
+
+const getUniqueId = getUniqueRange(0, COUNT_PHOTOS - 1);
+const getUniqueUrl = getUniqueRange(1, COUNT_PHOTOS);
+const getUniqueIdComment = getUniqueRange(0, COUNT_COMMENTS);
+const getUniqueAvatar = getUniqueRange(1, COUNT_AVATAR);
+
+console.log(createPhotos(COUNT_PHOTOS));
+// console.log(createComments(COUNT_PHOTOS));
