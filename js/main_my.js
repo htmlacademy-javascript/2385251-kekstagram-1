@@ -102,7 +102,7 @@ const createComment = () => ({
 });
 
 const createComments = () => {
-  const comments = Array.from({ length: 2 }, createComment);
+  const comments = Array.from({ length: COUNT_COMMENTS }, createComment);
   return comments;
 };
 
@@ -128,5 +128,5 @@ const getUniqueUrl = getUniqueRange(1, COUNT_PHOTOS);
 const getUniqueIdComment = getUniqueRange(0, COUNT_COMMENTS);
 const getUniqueAvatar = getUniqueRange(1, COUNT_AVATAR);
 
-console.log(createPhotos(COUNT_PHOTOS));
+// console.log(createPhotos(COUNT_PHOTOS));
 // console.log(createComments(COUNT_PHOTOS));
