@@ -41,11 +41,12 @@ comments, массив объектов — список комментарие�
 ]
 */
 
+const COUNT_MIN_AVATAR = 1;
 const COUNT_PHOTOS = 25;
 const MIN_LIKES = 15;
 const MAX_LIKES = 200;
-const COUNT_AVATAR = 6;
-const COUNT_COMMENTS = 5;
+const COUNT_MAX_AVATAR = 6;
+const COUNT_COMMENTS = 20;
 
 const DESCRIPTION = [
   'Красивый пейзаж',
@@ -80,32 +81,6 @@ const getRandomInteger = (a, b) => {
   return Math.floor(result);
 };
 
-
-const createPhoto = () => ({
-  id: getUniqueId,
-  url: `photos/${getUniqueUrl()}.jpg`,
-  description: DESCRIPTION[getRandomInteger(0, DESCRIPTION.length - 1)],
-  likes: getRandomInteger(MIN_LIKES, MAX_LIKES),
-  comments: createComments(COUNT_COMMENTS)
-});
-
-const createPhotos = (n) => {
-  const photos = Array.from({ length: n }, createPhoto);
-  return photos;
-};
-
-const createComment = () => ({
-  id: getUniqueIdComment,
-  avatar: `img/avatar-${getUniqueAvatar()}.svg`,
-  message: MESSAGE[getRandomInteger(0, MESSAGE.length - 1)],
-  name: NAMES[getRandomInteger(0, NAMES.length - 1)]
-});
-
-const createComments = () => {
-  const comments = Array.from({ length: COUNT_COMMENTS }, createComment);
-  return comments;
-};
-
 const getUniqueRange = (min, max) => {
   const previousValues = [];
 
@@ -126,7 +101,31 @@ const getUniqueRange = (min, max) => {
 const getUniqueId = getUniqueRange(0, COUNT_PHOTOS - 1);
 const getUniqueUrl = getUniqueRange(1, COUNT_PHOTOS);
 const getUniqueIdComment = getUniqueRange(0, COUNT_COMMENTS);
-const getUniqueAvatar = getUniqueRange(1, COUNT_AVATAR);
 
-// console.log(createPhotos(COUNT_PHOTOS));
-// console.log(createComments(COUNT_PHOTOS));
+const createComment = () => ({
+  id: getUniqueIdComment(),
+  avatar: `img/avatar-${getRandomInteger(COUNT_MIN_AVATAR, COUNT_MAX_AVATAR)}.svg`,
+  message: MESSAGE[getRandomInteger(0, MESSAGE.length - 1)],
+  name: NAMES[getRandomInteger(0, NAMES.length - 1)]
+});
+
+const createComments = (n) => {
+  const comments = Array.from({ length: n }, createComment);
+  return comments;
+};
+
+const createPhoto = () => ({
+  id: getUniqueId(),
+  url: `photos/${getUniqueUrl()}.jpg`,
+  description: DESCRIPTION[getRandomInteger(0, DESCRIPTION.length - 1)],
+  likes: getRandomInteger(MIN_LIKES, MAX_LIKES),
+  comments: createComments(getRandomInteger(0, COUNT_COMMENTS))
+});
+
+const createPhotos = (n) => {
+  const photos = Array.from({ length: n }, createPhoto);
+  return photos;
+};
+
+console.log(createPhotos(COUNT_PHOTOS));
+// console.log(createComments());
