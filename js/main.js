@@ -1,4 +1,5 @@
 import { createPhotos } from './data-generator.js';
 import { COUNT_PHOTOS } from './constants.js';
+import { renderPhotos } from './rendering.js';
 
-console.log(createPhotos(COUNT_PHOTOS));
+renderPhotos(createPhotos(COUNT_PHOTOS));

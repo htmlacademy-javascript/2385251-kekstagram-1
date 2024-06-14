@@ -24,7 +24,7 @@ const createComment = () => ({
   name: NAMES[getRandomInteger(0, NAMES.length - 1)]
 });
 
-const createComments = (n) => {
+export const createComments = (n) => {
   const comments = Array.from({ length: n }, createComment);
   return comments;
 };
