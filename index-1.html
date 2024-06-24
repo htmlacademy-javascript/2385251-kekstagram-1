@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      min-height: 100vh;
+    }
+
+    .active {
+      color: white;
+      background-color: red;
+    }
+
+    .list {
+      display: grid;
+
+      width: 940px;
+      margin: 0 auto;
+      padding: 0;
+
+      list-style: none;
+
+      grid-template-columns: repeat(3, 300px);
+      gap: 20px;
+    }
+
+    .item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      height: 300px;
+
+      color: #ffffff;
+    }
+
+    .popup__button {
+      display: block;
+
+      width: 40px;
+      height: 40px;
+      margin: auto;
+    }
+
+    .b-popup {
+      position: fixed;
+      top: 0;
+
+      overflow: hidden;
+
+      width: 100%;
+      height: 2000px;
+
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .b-popup .b_popup_content {
+      width: 100px;
+      height: 40px;
+      margin: 40px auto 0 auto;
+      padding: 10px;
+
+      border-radius: 5px;
+      background-color: #6441e2;
+      box-shadow: 0 0 10px #000000;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <button class="button"><span>Start</span></button>
+  <button class="button">Finish</button>
+
+  <ul class="list">
+    <!-- <li class="item" style="background-color: red;">red</li>
+        <li class="item" style="background-color: violet;">violet</li>
+        <li class="item" style="background-color: yellow;">yellow</li>
+        <li class="item" style="background-color: green;">green</li>
+        <li class="item" style="background-color: black;">black</li>
+        <li class="item" style="background-color: orange;">orange</li> -->
+  </ul>
+  <div class="hidden b-popup">
+    <div class=" b_popup_content">
+      <button class=" popup__button">
+
+      </button>
+    </div>
+  </div>
+
+  <script>
+
+    const colors = ['aqua', 'red', 'violet', 'yellow', 'green', 'black', 'orange', 'blue'];
+    const list = document.querySelector('.list');
+    const fragment = document.createDocumentFragment();
+    const popup = document.querySelector('.b-popup');
+    const popupButton = document.querySelector('.popup__button');
+    const bPopupContent = document.querySelector('.b_popup_content');
+
+    document.body.addEventListener('click', (e) => {
+      if (document.querySelector('.active')) {
+        document.querySelector('.active').classList.remove('active')
+      }
+
+      if (e.target.closest('.button')) {
+        console.log(e.target.textContent)
+        e.target.closest('.button').classList.add('active')
+      }
+
+    });
+
+    // Кнопка
+    const exit = (evt) => {
+      if (evt.target.closest('.item')) {
+        document.body.style.background = evt.target.closest('.item').dataset.color;
+        bPopupContent.style.background = evt.target.closest('.item').dataset.color;
+        popup.classList.remove('hidden');
+      }
+    }
+
+    list.addEventListener('click', exit)
+
+    // bPopupContent.addEventListener('click', (evt) => {
+    //   if (evt.target.closest('.b_popup_content')) {
+    //     popup.classList.add('hidden');
+    //     document.removeEventListener('click', exit);
+    //   }
+    // })
+
+    popupButton.addEventListener('click', (evt) => {
+      if (evt.target.closest('.popup__button')) {
+        popup.classList.add('hidden');
+        document.removeEventListener('click', exit);
+      }
+    })
+
+    // let items = '';
+    // colors.forEach((color) => {
+    //     items = items + `<li class="item" style="background-color: ${color};">${color}</li>`
+    // });
+
+    // let items = colors.map((color) => `<li class="item" style="background-color: ${color};">${color}</li>`).join('');
+
+    // document.querySelector('.list').innerHTML = items;
+
+
+    colors.forEach((color) => {
+      const item = document.createElement('li');
+      item.classList.add('item');
+      item.style.backgroundColor = color;
+      item.textContent = color
+      item.dataset.color = color;
+      fragment.append(item);
+      bPopupContent.dataset.color = color
+      bPopupContent.style.backgroundColor = color;
+    })
+
+    list.append(fragment)
+  </script>
+</body>
+
+</html>

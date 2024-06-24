@@ -21,3 +21,6 @@ export const getUniqueRange = (min, max) => {
     return currentValue;
   };
 };
+
+export const isEscapeKey = (evt) => evt.key === 'Escape';
+
