@@ -9,14 +9,14 @@ const userModalOpenElement = document.querySelector('.pictures');
 const userModalCloseElement = document.querySelector('.big-picture__cancel');
 const imageElement = userModalElement.querySelector('.big-picture__img img');
 const likesElement = userModalElement.querySelector('.likes-count');
-const commentsElement = userModalElement.querySelector('.comments-count');
+const commentsElement = userModalElement.querySelector('.social__comment-count');
 const descriptionElement = userModalElement.querySelector('.social__caption');
 const commentTemplate = userModalElement.querySelector('.social__comment');
 const listCommentsElement = userModalElement.querySelector('.social__comments');
 const commentsLoader = userModalElement.querySelector('.comments-loader');
 
 let commentsShown = 0;
-let commentsElementLoad = [];
+let loadedComments = [];
 
 const NEW_LOAD_COMMENTS = 5;
 
@@ -28,6 +28,7 @@ const escapeHandler = (evt) => {
 };
 
 const renderComments = (comments) => {
+  listCommentsElement.innerHTML = '';
   const fragment = document.createDocumentFragment();
   comments.forEach((comment) => {
     const newComment = commentTemplate.cloneNode(true);
@@ -36,28 +37,26 @@ const renderComments = (comments) => {
     newComment.querySelector('.social__text').textContent = comment.message;
     fragment.append(newComment);
   });
-  return fragment;
+  listCommentsElement.append(fragment);
 };
 
-const loadComments = () => {
-  commentsShown += NEW_LOAD_COMMENTS;
-
-  if (commentsShown >= commentsElementLoad.length) {
+const renderCommentsLoader = () => {
+  if (commentsShown >= loadedComments.length) {
     commentsLoader.classList.add('hidden');
-    commentsShown = commentsElementLoad.length;
   } else {
     commentsLoader.classList.remove('hidden');
   }
+};
 
-  // const fragment = document.createDocumentFragment();
-  // for (let i = 0; i < commentsShown; i++) {
-  //   const commentElement = renderComments(commentsElementLoad[i]);
-  //   fragment.append(commentElement);
-  // }
+const renderStatistic = () => {
+  commentsElement.innerHTML = `${commentsShown} из <span class="comments-count">${loadedComments.length}</span> комментариев`;
+}
 
-  // listCommentsElement.innerHTML = '';
-  // listCommentsElement.append(fragment);
-  commentsElement.innerHTML = `${commentsShown} из <span class="comments-count">${commentsElementLoad.length}</span> комментариев`;
+const loadComments = () => {
+  commentsShown = commentsShown + NEW_LOAD_COMMENTS >= loadedComments.length ? loadedComments.length : commentsShown + NEW_LOAD_COMMENTS;
+  renderCommentsLoader();
+  renderComments(loadedComments.slice(0, commentsShown));
+  renderStatistic();
 };
 
 commentsLoader.addEventListener('click', loadComments);
@@ -67,12 +66,13 @@ const renderPopup = (data) => {
   likesElement.textContent = data.likes;
   commentsElement.textContent = data.comments.length;
   descriptionElement.textContent = data.description;
-  listCommentsElement.innerHTML = '';
-  listCommentsElement.append(renderComments(data.comments));
+  loadedComments.length = 0;
+  loadedComments.push(...data.comments.slice());
   loadComments();
 };
 
 const openPopup = (id) => {
+  commentsShown = 0;
   const dataPicture = getData(id);
   renderPopup(dataPicture);
   userModalElement.classList.remove('hidden');
