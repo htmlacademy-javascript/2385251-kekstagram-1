@@ -1,7 +1,5 @@
 import { isEscapeKey } from './util.js';
 import { getData } from './rendering.js';
-import { DESCRIPTION } from './constants.js';
-import { createComments } from './data-generator.js';
 
 const body = document.querySelector('body');
 const userModalElement = document.querySelector('.big-picture');
@@ -50,7 +48,7 @@ const renderCommentsLoader = () => {
 
 const renderStatistic = () => {
   commentsElement.innerHTML = `${commentsShown} из <span class="comments-count">${loadedComments.length}</span> комментариев`;
-}
+};
 
 const loadComments = () => {
   commentsShown = commentsShown + NEW_LOAD_COMMENTS >= loadedComments.length ? loadedComments.length : commentsShown + NEW_LOAD_COMMENTS;

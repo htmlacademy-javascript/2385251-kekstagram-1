@@ -1,42 +1,58 @@
-
+import { resetValidation, isValid, hashtag, comment } from './validation.js';
+import { isEscapeKey } from './util.js';
 
 const form = document.querySelector('.img-upload__form');
-const overlay = document.querySelector('.img-upload__overlay');
+const modal = document.querySelector('.img-upload__overlay');
 const body = document.querySelector('body');
-const cancelButton = document.querySelector('#upload-cancel');
-const uploadLogo = document.querySelector('#upload-file');
-const hashtag = document.querySelector('.text__hastags');
-const comment = document.querySelector('.text__description');
-
-const pristine = new Pristine(form, {
-  classTo: 'img-upload__field-wrapper',
-  errorTextParent: 'img-upload__field-wrapper',
-  errorTextClass: 'img-upload__field-wrapper',
-});
-
-const fileInputChange = () => {
-  showModalWindow();
-};
+const closeButton = document.querySelector('#upload-cancel');
+const uploadElement = document.querySelector('#upload-file');
 
 const showModalWindow = () => {
-  uploadFile.classList.remove('hidden');
+  modal.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', onKeydown);
+  resetValidation();
 };
+
+form.addEventListener('submit', (evt) => {
+  if (!isValid()) {
+    evt.preventDefault();
+  }
+});
 
 const closeModalWindow = () => {
-  ploadFile.classList.add('hidden');
+  modal.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onKeydown);
+  resetValidation();
 };
 
-const onKeydown = () => {
+// const isFieldFocus = () => document.activeElement === hashtag || document.activeElement === comment;
 
+function onKeydown(evt) {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closeModalWindow();
+  }
 }
 
-const cancelButton = () => {
-  closeModalWindow;
-}
+uploadElement.addEventListener('change', showModalWindow);
 
-uploadLogo.addEventListener('change', fileInputChange);
-uploadCancel.addEventListener('click', cancelButton);
+closeButton.addEventListener('click', closeModalWindow);
+
+hashtag.addEventListener('focus', () => {
+  document.removeEventListener('keydown', onKeydown);
+});
+
+hashtag.addEventListener('blur', () => {
+  document.addEventListener('keydown', onKeydown);
+});
+
+comment.addEventListener('focus', () => {
+  document.removeEventListener('keydown', onKeydown);
+});
+
+comment.addEventListener('blur', () => {
+  document.addEventListener('keydown', onKeydown);
+});
+

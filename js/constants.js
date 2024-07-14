@@ -4,6 +4,9 @@ export const MIN_LIKES = 15;
 export const MAX_LIKES = 200;
 export const COUNT_MAX_AVATAR = 6;
 export const COUNT_COMMENTS = 20;
+export const MAX_COMMENT_LENGTH = 140;
+export const HASHTAG_FORMULA = /^#[a-zа-яё0-9]{1,19}$/i;
+export const MAX_HASHTAGS = 5;
 
 export const DESCRIPTION = [
   'Красивый пейзаж',
