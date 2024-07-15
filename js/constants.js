@@ -7,6 +7,10 @@ export const COUNT_COMMENTS = 20;
 export const MAX_COMMENT_LENGTH = 140;
 export const HASHTAG_FORMULA = /^#[a-zа-яё0-9]{1,19}$/i;
 export const MAX_HASHTAGS = 5;
+export const SCALE_STEP = 25;
+export const MIN_SCALE = 25;
+export const MAX_SCALE = 100;
+export const DEFAULT_SCALE = 100;
 
 export const DESCRIPTION = [
   'Красивый пейзаж',

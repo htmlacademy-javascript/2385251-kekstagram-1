@@ -1,5 +1,6 @@
 import { resetValidation, isValid, hashtag, comment } from './validation.js';
 import { isEscapeKey } from './util.js';
+import { resetScale } from './scale.js';
 
 const form = document.querySelector('.img-upload__form');
 const modal = document.querySelector('.img-upload__overlay');
@@ -21,6 +22,7 @@ form.addEventListener('submit', (evt) => {
 });
 
 const closeModalWindow = () => {
+  resetScale();
   modal.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onKeydown);
