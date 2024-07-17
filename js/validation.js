@@ -21,7 +21,7 @@ const normaliseHashTags = (str) => {
 
 const checkHashtag = (value) => {
   const tags = normaliseHashTags(value);
-  return tags.every((tag) => HASHTAG_FORMULA.test(tag));
+  return !value.length || tags.every((tag) => HASHTAG_FORMULA.test(tag));
 };
 
 const checkCountHashtags = (value) => {
@@ -61,7 +61,7 @@ pristine.addValidator(
 
 const resetValidation = () => {
   pristine.reset();
-  form.reset();
+  // form.reset();
 };
 
 const isValid = () => pristine.validate();

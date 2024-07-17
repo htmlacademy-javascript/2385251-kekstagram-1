@@ -1,9 +1,9 @@
 import { SCALE_STEP, MIN_SCALE, MAX_SCALE, DEFAULT_SCALE } from './constants.js';
 
 const smallerButton = document.querySelector('.scale__control--smaller');
-const biggerButton = document.querySelector('scale__control--bigger');
-const countScale = document.querySelector('scale__control--value');
-const previewImage = document.querySelector('img-upload__preview');
+const biggerButton = document.querySelector('.scale__control--bigger');
+const countScale = document.querySelector('.scale__control--value');
+const previewImage = document.querySelector('.img-upload__preview img');
 
 
 const scaleImage = (value) => {
@@ -32,6 +32,6 @@ const reduceImage = () => {
 
 export const resetScale = () => scaleImage(DEFAULT_SCALE);
 
-// smallerButton.addEventListener('click', reduceImage);
-// biggerButton.addEventListener('click', enhanceImage);
+smallerButton.addEventListener('click', reduceImage);
+biggerButton.addEventListener('click', enhanceImage);
 

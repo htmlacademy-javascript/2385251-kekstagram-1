@@ -38,3 +38,53 @@ export const MESSAGE = [
   'В целом всё неплохо. Но не всё.'
 ];
 
+export const EFFECTS = [
+  {
+    name: original,
+    style: none,
+    min: 0,
+    max: 1,
+    step: 0.1,
+    unite: '',
+  }
+  {
+    name: chrome,
+    style: grayscale,
+    min: 0,
+    max: 1,
+    step: 0.1,
+    unite: '',
+  }
+  {
+    name: sepia,
+    style: sepia,
+    min: 0,
+    max: 1,
+    step: 0.1,
+    unite: '',
+  }
+  {
+    name: marvin,
+    style: invert,
+    min: 0,
+    max: 100,
+    step: 1,
+    unite: '%',
+  }
+  {
+    name: fobos,
+    style: blure,
+    min: 0,
+    max: 3,
+    step: 0.1,
+    unite: 'px',
+  }
+  {
+    name: heat,
+    style: brightness,
+    min: 1,
+    max: 3,
+    step: 0.1,
+    unite: '',
+  }
+];
