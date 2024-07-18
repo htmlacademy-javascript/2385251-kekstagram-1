@@ -1,6 +1,7 @@
 import { resetValidation, isValid } from './validation.js';
 import { isEscapeKey } from './util.js';
 import { resetScale } from './scale.js';
+import { resetEffects } from './effects.js';
 
 const hashtag = document.querySelector('.text__hashtags');
 const comment = document.querySelector('.text__description');
@@ -16,6 +17,7 @@ const showModalWindow = () => {
   document.addEventListener('keydown', onKeydown);
   resetValidation();
   resetScale();
+  resetEffects();
 };
 
 form.addEventListener('submit', (evt) => {
