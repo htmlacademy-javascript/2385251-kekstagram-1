@@ -24,7 +24,7 @@ const SubmitButtonText = {
 const showModalWindow = () => {
   modal.classList.remove('hidden');
   body.classList.add('modal-open');
-  document.addEventListener('keydown', onKeydown);
+  document.addEventListener('keydown', onDocumentKeydown);
   resetValidation();
   resetScale();
   resetEffects();
@@ -42,20 +42,21 @@ const unblockButtonSubmit = () => {
 
 const closeSuccessTemlateWindow = () => {
   document.querySelector('.success').remove();
-  document.removeEventListener('keydown', onKeydown);
+  document.removeEventListener('keydown', onDocumentKeydown);
 };
 
 const closeErrorTemlateWindow = () => {
   document.querySelector('.error').remove();
-  document.removeEventListener('keydown', onKeydown);
+  document.removeEventListener('keydown', onDocumentKeydown);
 };
 
 const closeModalWindow = () => {
   body.classList.remove('modal-open');
   modal.classList.add('hidden');
-  document.removeEventListener('keydown', onKeydown);
+  document.removeEventListener('keydown', onDocumentKeydown);
   resetValidation();
   resetScale();
+  form.reset();
 };
 
 form.addEventListener('submit', (evt) => {
@@ -69,7 +70,7 @@ form.addEventListener('submit', (evt) => {
 
       })
       .catch((error) => {
-        closeModalWindow(document.body.append(errorSend));
+        document.body.append(errorSend);
         document.querySelector('.error__button').addEventListener('click', closeErrorTemlateWindow);
       })
       .finally(() => {
@@ -80,8 +81,8 @@ form.addEventListener('submit', (evt) => {
 
 const isFieldFocus = () => document.activeElement === hashtag || document.activeElement === comment;
 
-function onKeydown(evt) {
-  if (isEscapeKey(evt) && !isFieldFocus) {
+function onDocumentKeydown(evt) {
+  if (isEscapeKey(evt) && !isFieldFocus()) {
     closeModalWindow();
     closeSuccessTemlateWindow();
     closeErrorTemlateWindow();
