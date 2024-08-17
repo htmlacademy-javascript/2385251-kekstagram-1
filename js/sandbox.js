@@ -163,3 +163,12 @@ const getActiveNamesByFilterAndMap = (arr) => arr
 
 // const getSortedNames = (arr) => arr.sort((a, b) => b.age - a.age).map((item) => item.name)
 // console.log(getSortedNames(users))
+
+
+function multiplyThreeNumbers(a, b, c) {
+  return a * b * c;
+}
+
+const nums = [1, 2, 3];
+
+console.log(multiplyThreeNumbers(nums));
