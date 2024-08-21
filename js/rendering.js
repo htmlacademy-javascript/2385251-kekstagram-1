@@ -4,9 +4,16 @@ const picturesElementTemplate = document.querySelector('#picture').content.query
 
 const localPhotos = [];
 
+const clear = () => {
+  document.querySelectorAll('.picture').forEach((item) => {
+    item.remove();
+  });
+};
+
 export const renderPhotos = (similarPhotos) => {
   localPhotos.length = 0;
   localPhotos.push(...similarPhotos.slice());
+  clear();
   const fragment = document.createDocumentFragment();
   similarPhotos.forEach((item) => {
     const pictureElement = picturesElementTemplate.cloneNode(true);

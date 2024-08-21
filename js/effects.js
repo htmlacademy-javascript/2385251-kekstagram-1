@@ -1,4 +1,4 @@
-import { EFFECTS } from "./constants.js";
+import { EFFECTS } from './constants.js';
 
 const sliderElement = document.querySelector('.effect-level__slider');
 const imageElement = document.querySelector('.img-upload__preview img');
@@ -56,16 +56,18 @@ const onEffectsChange = (evt) => {
 
 };
 
-effectsListElement.addEventListener('change', onEffectsChange)
+effectsListElement.addEventListener('change', onEffectsChange);
 
-const getImageEffect = (value) => `${chosenEffect.style}(${value}${chosenEffect.unite})`
+const getImageEffect = (value) => `${chosenEffect.style}(${value}${chosenEffect.unite})`;
 
 sliderElement.noUiSlider.on('update', () => {
   effectLevel.value = sliderElement.noUiSlider.get();
   if (!isDefault()) {
-    imageElement.style.filter = getImageEffect(effectLevel.value)
+    imageElement.style.filter = getImageEffect(effectLevel.value);
   }
 
 });
+
+resetEffects();
 
 export { resetEffects };
