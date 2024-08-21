@@ -1,6 +1,7 @@
-import './popup.js';
+import { openPopup } from './popup.js';
 const similarListElement = document.querySelector('.pictures');
 const picturesElementTemplate = document.querySelector('#picture').content.querySelector('.picture');
+const picturesContainerElement = document.querySelector('.pictures');
 
 const localPhotos = [];
 
@@ -26,4 +27,11 @@ export const renderPhotos = (similarPhotos) => {
   similarListElement.append(fragment);
 };
 
-export const getData = (id) => localPhotos.find((photo) => photo.id === Number(id));
+picturesContainerElement.addEventListener('click', (evt) => {
+  const card = evt.target.closest('.picture');
+  if (card) {
+    const photoData = localPhotos.find((photo) => photo.id === Number(card.dataset.id));
+    openPopup(photoData);
+  }
+});
+

@@ -59,7 +59,6 @@ pristine.addValidator(
 
 const resetValidation = () => {
   pristine.reset();
-  // form.reset();
 };
 
 const isValid = () => pristine.validate();
