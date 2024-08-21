@@ -1,9 +1,9 @@
-import { isEscapeKey } from './util.js';
-import { getData } from './rendering.js';
+import { setEscapeControl, removeEscapeControl } from './escape-control.js';
+import { NEW_LOAD_COMMENTS } from './constants.js';
+import './loading-photo.js';
 
 const body = document.querySelector('body');
 const userModalElement = document.querySelector('.big-picture');
-const userModalOpenElement = document.querySelector('.pictures');
 const userModalCloseElement = document.querySelector('.big-picture__cancel');
 const imageElement = userModalElement.querySelector('.big-picture__img img');
 const likesElement = userModalElement.querySelector('.likes-count');
@@ -15,15 +15,6 @@ const commentsLoader = userModalElement.querySelector('.comments-loader');
 
 let commentsShown = 0;
 const loadedComments = [];
-
-const NEW_LOAD_COMMENTS = 5;
-
-const escapeHandler = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    userModalElement.classList.add('hidden');
-  }
-};
 
 const renderComments = (comments) => {
   listCommentsElement.innerHTML = '';
@@ -69,24 +60,20 @@ const renderPopup = (data) => {
   loadComments();
 };
 
-const openPopup = (id) => {
-  commentsShown = 0;
-  const dataPicture = getData(id);
-  renderPopup(dataPicture);
-  userModalElement.classList.remove('hidden');
-  document.addEventListener('keydown', escapeHandler);
-};
-
-userModalOpenElement.addEventListener('click', (evt) => {
-  const card = evt.target.closest('.picture');
-  if (card) {
-    body.classList.add('modal-open');
-    openPopup(card.dataset.id);
-  }
-});
-
-userModalCloseElement.addEventListener('click', () => {
+const closePopup = () => {
   userModalElement.classList.add('hidden');
   body.classList.remove('modal-open');
-  document.removeEventListener('keydown', escapeHandler);
+};
+
+export const openPopup = (dataPicture) => {
+  commentsShown = 0;
+  body.classList.add('modal-open');
+  renderPopup(dataPicture);
+  userModalElement.classList.remove('hidden');
+  setEscapeControl(closePopup);
+};
+
+userModalCloseElement.addEventListener('click', () => {
+  closePopup();
+  removeEscapeControl();
 });

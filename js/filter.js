@@ -1,12 +1,6 @@
 import { renderPhotos } from './rendering.js';
 import { debounce } from './util.js';
-import { PICTURES_COUNT, RERENDER_DELAY } from './constants.js';
-
-const Filter = {
-  DEFAULT: 'filter-default',
-  RANDOM: 'filter-random',
-  DISCUSSED: 'filter-discussed',
-};
+import { PICTURES_COUNT, RERENDER_DELAY, Filter } from './constants.js';
 
 const filter = document.querySelector('.img-filters');
 const filterForm = filter.querySelector('.img-filters__form');

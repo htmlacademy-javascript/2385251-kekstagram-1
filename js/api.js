@@ -1,19 +1,9 @@
-const BASE_URL = 'https://28.javascript.htmlacademy.pro/kekstagram';
-
-const Route = {
-  GET_DATA: '/data',
-  POST_DATA: '/',
-};
-
-const Method = {
-  GET: 'GET',
-  POST: 'POST',
-};
-
-const ErrorText = {
-  GET_DATA: 'Не удалось загрузить данные. Попробуйте обновить страницу',
-  SEND_DATA: 'Не удалось отправить форму',
-};
+import {
+  BASE_URL,
+  Route,
+  Method,
+  ErrorText
+} from './constants.js';
 
 const load = (route, errorText, method = Method.GET, body = null) =>
   fetch(`${BASE_URL}${route}`, { method, body })
@@ -30,6 +20,5 @@ const load = (route, errorText, method = Method.GET, body = null) =>
 const getData = () => load(Route.GET_DATA, ErrorText.GET_DATA);
 
 const sendData = (body) => load(Route.POST_DATA, ErrorText.SEND_DAT, Method.POST, body);
-
 
 export { getData, sendData };

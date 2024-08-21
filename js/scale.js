@@ -5,7 +5,6 @@ const biggerButton = document.querySelector('.scale__control--bigger');
 const countScale = document.querySelector('.scale__control--value');
 const previewImage = document.querySelector('.img-upload__preview img');
 
-
 const scaleImage = (value) => {
   previewImage.style.transform = `scale(${value / 100})`;
   countScale.value = `${value}%`;

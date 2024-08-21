@@ -65,4 +65,29 @@ export const RERENDER_DELAY = 500;
 export const SubmitButtonText = {
   IDLE: 'Опубликовать',
   SENDING: 'Публикую...'
-}
+};
+
+export const NEW_LOAD_COMMENTS = 5;
+
+export const BASE_URL = 'https://28.javascript.htmlacademy.pro/kekstagram';
+
+export const Route = {
+  GET_DATA: '/data',
+  POST_DATA: '/',
+};
+
+export const Method = {
+  GET: 'GET',
+  POST: 'POST',
+};
+
+export const ErrorText = {
+  GET_DATA: 'Не удалось загрузить данные. Попробуйте обновить страницу',
+  SEND_DATA: 'Не удалось отправить форму',
+};
+
+export const Filter = {
+  DEFAULT: 'filter-default',
+  RANDOM: 'filter-random',
+  DISCUSSED: 'filter-discussed',
+};

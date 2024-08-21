@@ -9,7 +9,6 @@ const sliderContainerElement = document.querySelector('.effect-level');
 const DEFAULT_EFFECT = EFFECTS[0];
 let chosenEffect = DEFAULT_EFFECT;
 
-
 const isDefault = () => chosenEffect.name === DEFAULT_EFFECT.name;
 
 noUiSlider.create(sliderElement, {
@@ -20,6 +19,10 @@ noUiSlider.create(sliderElement, {
   start: 80,
   step: 1,
   connect: 'lower',
+  format: {
+    to: (value) => Number(value),
+    from: (value) => Number(value),
+  }
 });
 
 const updateSlider = (effect) => {
@@ -53,7 +56,6 @@ const onEffectsChange = (evt) => {
     imageElement.className = `effects__preview--${chosenEffect.name}`;
     updateSlider(chosenEffect);
   }
-
 };
 
 effectsListElement.addEventListener('change', onEffectsChange);
@@ -65,7 +67,6 @@ sliderElement.noUiSlider.on('update', () => {
   if (!isDefault()) {
     imageElement.style.filter = getImageEffect(effectLevel.value);
   }
-
 });
 
 resetEffects();
