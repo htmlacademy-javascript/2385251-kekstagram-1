@@ -3,6 +3,8 @@ import { resetScale } from './scale.js';
 import { resetEffects } from './effects.js';
 import { sendData } from './api.js';
 import { setEscapeControl, removeEscapeControl } from './escape-control.js';
+import { SubmitButtonText } from './constants.js';
+import { openErrorPopup, openSuccessPopup } from './message-popup.js';
 
 const hashtag = document.querySelector('.text__hashtags');
 const comment = document.querySelector('.text__description');
@@ -12,13 +14,6 @@ const body = document.querySelector('body');
 const closeButton = document.querySelector('#upload-cancel');
 const uploadElement = document.querySelector('#upload-file');
 const buttonSubmit = document.querySelector('#upload-submit');
-const success = document.querySelector('#success').content.querySelector('.success');
-const errorSend = document.querySelector('#error').content.querySelector('.error');
-
-const SubmitButtonText = {
-  IDLE: 'Опубликовать',
-  SENDING: 'Публикую...'
-};
 
 const isFieldFocus = () => !(document.activeElement === hashtag || document.activeElement === comment);
 
@@ -28,22 +23,9 @@ const showModalWindow = () => {
   setEscapeControl(closeModalWindow, isFieldFocus);
 };
 
-const blockButtonSubmit = () => {
-  buttonSubmit.disabled = true;
-  buttonSubmit.textContent = SubmitButtonText.SENDING;
-};
-
-const unblockButtonSubmit = () => {
-  buttonSubmit.disabled = false;
-  buttonSubmit.textContent = SubmitButtonText.IDLE;
-};
-
-const closeSuccessTemlateWindow = () => {
-  document.querySelector('.success').remove();
-};
-
-const closeErrorTemlateWindow = () => {
-  document.querySelector('.error').remove();
+const blockButtonSubmit = (isBlocked = true) => {
+  buttonSubmit.disabled = isBlocked;
+  buttonSubmit.textContent = isBlocked ? SubmitButtonText.SENDING : SubmitButtonText.IDLE;
 };
 
 function closeModalWindow() {
@@ -55,31 +37,6 @@ function closeModalWindow() {
   resetScale();
 }
 
-const openErrorPopup = () => {
-  const errorTemplate = errorSend.cloneNode(true);
-  document.body.append(errorTemplate);
-  document.querySelector('.error').addEventListener('click', ({ target }) => {
-    if (target.classList.contains('error__button') || (target.classList.contains('error'))) {
-      closeErrorTemlateWindow();
-      removeEscapeControl();
-    }
-  });
-  setEscapeControl(closeErrorTemlateWindow);
-};
-
-const openSuccessPopup = () => {
-  const successTemplate = success.cloneNode(true);
-  document.body.append(successTemplate);
-  document.querySelector('.success').addEventListener('click', ({ target }) => {
-    if (target.classList.contains('success__button') || (target.classList.contains('success'))) {
-      closeSuccessTemlateWindow();
-      removeEscapeControl();
-    }
-  }
-  );
-  setEscapeControl(closeSuccessTemlateWindow);
-};
-
 form.addEventListener('submit', (evt) => {
   evt.preventDefault();
   if (isValid()) {
@@ -90,11 +47,11 @@ form.addEventListener('submit', (evt) => {
         removeEscapeControl();
         openSuccessPopup();
       })
-      .catch((error) => {
+      .catch(() => {
         openErrorPopup();
       })
       .finally(() => {
-        unblockButtonSubmit();
+        blockButtonSubmit(false);
       });
   }
 });
@@ -106,5 +63,3 @@ closeButton.addEventListener('click', (evt) => {
   closeModalWindow();
   removeEscapeControl();
 });
-
-

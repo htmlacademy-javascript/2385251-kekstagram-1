@@ -14,7 +14,7 @@ const listCommentsElement = userModalElement.querySelector('.social__comments');
 const commentsLoader = userModalElement.querySelector('.comments-loader');
 
 let commentsShown = 0;
-let loadedComments = [];
+const loadedComments = [];
 
 const NEW_LOAD_COMMENTS = 5;
 
@@ -79,8 +79,8 @@ const openPopup = (id) => {
 
 userModalOpenElement.addEventListener('click', (evt) => {
   const card = evt.target.closest('.picture');
-  body.classList.add('modal-open');
   if (card) {
+    body.classList.add('modal-open');
     openPopup(card.dataset.id);
   }
 });
@@ -90,5 +90,3 @@ userModalCloseElement.addEventListener('click', () => {
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', escapeHandler);
 });
-
-

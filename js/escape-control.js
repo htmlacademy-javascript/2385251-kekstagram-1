@@ -28,7 +28,7 @@ export const setEscapeControl = (cb, condition = null) => {
   }
 };
 
-export const removeEscapeControl = (cb) => {
+export const removeEscapeControl = () => {
   stack.length = stack.length - 1;
   if (!stack.length) {
     listener = null;
