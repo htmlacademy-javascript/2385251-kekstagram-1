@@ -1,4 +1,4 @@
-import { isEscapeKey } from "./util.js";
+import { isEscapeKey } from './util.js';
 
 const stack = [];
 let listener = null;
@@ -6,7 +6,10 @@ let listener = null;
 const onDocumentEscape = (evt) => {
   if (isEscapeKey(evt)) {
     const index = stack.length - 1;
-    stack[index]();
+    if (stack[index].condition && !stack[index].condition()) {
+      return;
+    }
+    stack[index].cb();
     stack.length = stack.length - 1;
     if (!stack.length) {
       listener = null;
@@ -15,10 +18,13 @@ const onDocumentEscape = (evt) => {
   }
 };
 
-export const setEscapeControl = (cb) => {
-  stack.push(cb);
+export const setEscapeControl = (cb, condition = null) => {
+  stack.push({
+    cb,
+    condition
+  });
   if (!listener) {
-    listener = document.addEventListener('keydown', onDocumentEscape)
+    listener = document.addEventListener('keydown', onDocumentEscape);
   }
 };
 

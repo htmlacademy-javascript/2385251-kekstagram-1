@@ -9,9 +9,7 @@ const pristine = new Pristine(form, {
   errorTextClass: 'img-upload__field-wrapper',
 });
 
-const checkComment = (value) => {
-  return value.length <= MAX_COMMENT_LENGTH;
-};
+const checkComment = (value) => value.length <= MAX_COMMENT_LENGTH;
 
 const normaliseHashTags = (str) => {
   const regex = /\s+/g;
@@ -66,5 +64,5 @@ const resetValidation = () => {
 
 const isValid = () => pristine.validate();
 
-
+resetValidation();
 export { resetValidation, isValid };

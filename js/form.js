@@ -14,22 +14,18 @@ const uploadElement = document.querySelector('#upload-file');
 const buttonSubmit = document.querySelector('#upload-submit');
 const success = document.querySelector('#success').content.querySelector('.success');
 const errorSend = document.querySelector('#error').content.querySelector('.error');
-// const errorButton = document.querySelector('.error__button');
 
 const SubmitButtonText = {
   IDLE: 'Опубликовать',
   SENDING: 'Публикую...'
 };
 
-const isFieldFocus = () => document.activeElement === hashtag || document.activeElement === comment;
+const isFieldFocus = () => !(document.activeElement === hashtag || document.activeElement === comment);
 
 const showModalWindow = () => {
   modal.classList.remove('hidden');
   body.classList.add('modal-open');
-  resetValidation();
-  resetScale();
-  resetEffects();
-  setEscapeControl(closeModalWindow);
+  setEscapeControl(closeModalWindow, isFieldFocus);
 };
 
 const blockButtonSubmit = () => {
@@ -53,25 +49,27 @@ const closeErrorTemlateWindow = () => {
 function closeModalWindow() {
   body.classList.remove('modal-open');
   modal.classList.add('hidden');
+  form.reset();
   resetValidation();
+  resetEffects();
   resetScale();
-};
+}
 
 const openErrorPopup = () => {
   const errorTemplate = errorSend.cloneNode(true);
-  document.body.append(errorTemplate)
+  document.body.append(errorTemplate);
   document.querySelector('.error').addEventListener('click', ({ target }) => {
     if (target.classList.contains('error__button') || (target.classList.contains('error'))) {
       closeErrorTemlateWindow();
       removeEscapeControl();
     }
   });
-  setEscapeControl(closeErrorTemlateWindow)
+  setEscapeControl(closeErrorTemlateWindow);
 };
 
 const openSuccessPopup = () => {
   const successTemplate = success.cloneNode(true);
-  document.body.append(successTemplate)
+  document.body.append(successTemplate);
   document.querySelector('.success').addEventListener('click', ({ target }) => {
     if (target.classList.contains('success__button') || (target.classList.contains('success'))) {
       closeSuccessTemlateWindow();
@@ -79,7 +77,7 @@ const openSuccessPopup = () => {
     }
   }
   );
-  setEscapeControl(closeSuccessTemlateWindow)
+  setEscapeControl(closeSuccessTemlateWindow);
 };
 
 form.addEventListener('submit', (evt) => {
@@ -89,7 +87,7 @@ form.addEventListener('submit', (evt) => {
     sendData(new FormData(form))
       .then(() => {
         closeModalWindow();
-        removeEscapeControl()
+        removeEscapeControl();
         openSuccessPopup();
       })
       .catch((error) => {
@@ -101,28 +99,12 @@ form.addEventListener('submit', (evt) => {
   }
 });
 
-
-
 uploadElement.addEventListener('change', showModalWindow);
 
-closeButton.addEventListener('click', () => {
-  closeModalWindow()
-  removeEscapeControl()
+closeButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  closeModalWindow();
+  removeEscapeControl();
 });
 
-// hashtag.addEventListener('focus', () => {
-//   document.removeEventListener('keydown', onKeydown);
-// });
-
-// hashtag.addEventListener('blur', () => {
-//   document.addEventListener('keydown', onKeydown);
-// });
-
-// comment.addEventListener('focus', () => {
-//   document.removeEventListener('keydown', onKeydown);
-// });
-
-// comment.addEventListener('blur', () => {
-//   document.addEventListener('keydown', onKeydown);
-// });
 

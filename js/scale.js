@@ -11,7 +11,6 @@ const scaleImage = (value) => {
   countScale.value = `${value}%`;
 };
 
-
 const enhanceImage = () => {
   const currentValue = parseInt(countScale.value, 10);
   let newValue = currentValue + SCALE_STEP;
@@ -32,6 +31,7 @@ const reduceImage = () => {
 
 export const resetScale = () => scaleImage(DEFAULT_SCALE);
 
+resetScale();
 smallerButton.addEventListener('click', reduceImage);
 biggerButton.addEventListener('click', enhanceImage);
 

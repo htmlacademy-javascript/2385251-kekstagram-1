@@ -1,6 +1,6 @@
-import { renderPhotos } from "./rendering.js";
-
-const PICTURES_COUNT = 10;
+import { renderPhotos } from './rendering.js';
+import { debounce } from './util.js';
+import { PICTURES_COUNT, RERENDER_DELAY } from './constants.js';
 
 const Filter = {
   DEFAULT: 'filter-default',
@@ -10,9 +10,6 @@ const Filter = {
 
 const filter = document.querySelector('.img-filters');
 const filterForm = filter.querySelector('.img-filters__form');
-const filterButtonRandom = filter.querySelector('#filter-random');
-const filterButtonDiscussed = filter.querySelector('#filter-discussed');
-const filterButtonDefault = filter.querySelector('#filter-default');
 let currentFilter = Filter.DEFAULT;
 let pictures = [];
 
@@ -30,37 +27,21 @@ const getFilterPictures = () => {
   }
 };
 
-filterForm.addEventListener('click', ({ target }) => {
+filterForm.addEventListener('click', debounce(({ target }) => {
   currentFilter = target.id;
   const data = getFilterPictures();
   renderPhotos(data);
-});
+}, RERENDER_DELAY));
 
 export const init = (loadPictures) => {
   filter.classList.remove('img-filters--inactive');
   pictures = [...loadPictures];
 };
 
-// const buttonRandomClick = () => {
-filterButtonRandom.addEventListener('click', () => {
-  filterButtonRandom.classList.add('img-filters__button--active');
-  filterButtonDiscussed.classList.remove('img-filters__button--active');
-  filterButtonDefault.classList.remove('img-filters__button--active');
-
+filterForm.addEventListener('click', ({ target }) => {
+  if (target.classList.contains('img-filters__button')) {
+    document.querySelector('.img-filters__button--active').classList.remove('img-filters__button--active');
+    target.classList.add('img-filters__button--active');
+  }
 });
-// }
-// const buttonDiscussedClick = () => {
-filterButtonDiscussed.addEventListener('click', () => {
-  filterButtonDiscussed.classList.add('img-filters__button--active');
-  filterButtonRandom.classList.remove('img-filters__button--active');
-  filterButtonDefault.classList.remove('img-filters__button--active');
-});
-// }
-// const buttonDefaultClick = () => {
-filterButtonDefault.addEventListener('click', () => {
-  filterButtonDefault.classList.add('img-filters__button--active');
-  filterButtonDiscussed.classList.remove('img-filters__button--active');
-  filterButtonRandom.classList.remove('img-filters__button--active');
-});
-// };
 
