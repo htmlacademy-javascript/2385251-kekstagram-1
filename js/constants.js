@@ -61,3 +61,8 @@ export const EFFECTS = [
 export const PICTURES_COUNT = 10;
 
 export const RERENDER_DELAY = 500;
+
+export const SubmitButtonText = {
+  IDLE: 'Опубликовать',
+  SENDING: 'Публикую...'
+}
